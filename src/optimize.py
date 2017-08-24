@@ -4,6 +4,8 @@ import vgg, pdb, time
 import tensorflow as tf, numpy as np, os
 import transform
 from utils import get_img
+import os
+
 
 STYLE_LAYERS = ('relu1_1', 'relu2_1', 'relu3_1', 'relu4_1', 'relu5_1')
 CONTENT_LAYER = 'relu4_2'
@@ -11,9 +13,12 @@ DEVICES = 'CUDA_VISIBLE_DEVICES'
 
 # np arr, np arr
 def optimize(content_targets, style_target, content_weight, style_weight,
-             tv_weight, vgg_path, epochs=2, print_iterations=1000,
+             tv_weight, vgg_path, device, epochs=2, print_iterations=1000,
              batch_size=4, save_path='saver/fns.ckpt', slow=False,
              learning_rate=1e-3, debug=False):
+
+    os.environ["CUDA_VISIBLE_DEVICES"] = device[-1:]
+
     if slow:
         batch_size = 1
     mod = len(content_targets) % batch_size

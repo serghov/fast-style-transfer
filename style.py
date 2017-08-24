@@ -85,6 +85,10 @@ def build_parser():
                         help='learning rate (default %(default)s)',
                         metavar='LEARNING_RATE', default=LEARNING_RATE)
 
+    parser.add_argument('--device', type=str,
+                        dest='device', help='device to perform compute on',
+                        metavar='DEVICE', default=DEVICE)
+
     return parser
 
 def check_opts(opts):
@@ -141,7 +145,8 @@ def main():
         options.content_weight,
         options.style_weight,
         options.tv_weight,
-        options.vgg_path
+        options.vgg_path,
+        options.device
     ]
 
     for preds, losses, i, epoch in optimize(*args, **kwargs):
